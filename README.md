@@ -9,9 +9,10 @@
 
 [![Course](https://img.shields.io/badge/Course-25CS1302E-2563eb?style=for-the-badge)](#)
 [![PBL](https://img.shields.io/badge/PBL-FULL-7c3aed?style=for-the-badge)](#)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql&logoColor=white)](#)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3-6db33f?style=for-the-badge&logo=springboot&logoColor=white)](#)
-[![Java](https://img.shields.io/badge/JDK-21-007396?style=for-the-badge&logo=openjdk&logoColor=white)](#)
+[![CampusConnect](https://img.shields.io/badge/Anchor%20Project-CampusConnect-0f766e?style=for-the-badge)](https://github.com/tejaswin-amara/campus-connect)
+[![MySQL](https://img.shields.io/badge/MySQL-8.4%20LTS-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](#)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](#)
+[![Java](https://img.shields.io/badge/Java-25-437291?style=for-the-badge&logo=openjdk&logoColor=white)](#)
 
 ### Build the data layer. Understand the service. Engineer for scale.
 
@@ -19,13 +20,70 @@
 
 ---
 
-## ✦ What is this repository?
+## ✦ About this repository
 
 This repository is the practical workspace for **Database Systems Engineering and Distributed Backend Development (25CS1302E)**.
 
-The course follows an **outside-in learning model**: start with a working backend service, then progressively open the layers underneath it—from HTTP and REST to relational modelling, SQL, transactions, indexes, query execution, replication, sharding, and CAP.
+The course follows an **outside-in learning model**: begin with a working application, then progressively open the layers underneath it—from HTTP and backend services to relational modelling, SQL, transactions, indexing, query execution, and distributed-database fundamentals.
+
+The course anchor is **CampusConnect**, a campus event catalogue and administrative control-plane application. Its current implementation is a **Spring Boot modular monolith backed by MySQL 8.4**, with explicit event, identity, registration-interest, recommendation, and operations boundaries. fileciteturn1file0
 
 > **Core philosophy:** don't just learn how to use a database. Learn how the system behaves, why it behaves that way, and how to engineer it correctly.
+
+---
+
+## 🚀 Anchor Project — CampusConnect
+
+### A Trustworthy Campus Event Catalogue & Management Platform
+
+urlOpen the CampusConnect repositoryhttps://github.com/tejaswin-amara/campus-connect
+
+CampusConnect is the **primary PBL project** used to connect the DBSE&DBD syllabus with a real software system. It gives the course a concrete domain in which database modelling, integrity, SQL, transactions, indexes, backend architecture, security, observability, and scalability can be studied rather than treated as isolated exercises.
+
+The current application provides public event discovery, administrative event management, student-interest tracking, event media persistence, security controls, migrations, health/metrics, Docker support, and CI. fileciteturn1file0
+
+### 🧱 System at a glance
+
+```text
+                    ┌───────────────────────┐
+                    │  Student / Admin UI   │
+                    └───────────┬───────────┘
+                                │
+                                ▼
+                    ┌───────────────────────┐
+                    │ Spring MVC + Security │
+                    │ CSRF · RBAC · Session │
+                    └───────────┬───────────┘
+                                │
+              ┌─────────────────┼──────────────────┐
+              ▼                 ▼                  ▼
+       ┌────────────┐    ┌─────────────┐    ┌─────────────┐
+       │   Events   │    │  Identity   │    │ Registrations│
+       │   Service  │    │   Services  │    │ / Interest   │
+       └─────┬──────┘    └──────┬──────┘    └──────┬──────┘
+             │                  │                  │
+             └──────────────────┼──────────────────┘
+                                ▼
+                    ┌───────────────────────┐
+                    │ Spring Data JPA      │
+                    │ Hibernate Validation │
+                    └───────────┬───────────┘
+                                │
+                                ▼
+                    ┌───────────────────────┐
+                    │      MySQL 8.4        │
+                    │  Relational Source    │
+                    │      of Truth         │
+                    └───────────┬───────────┘
+                                │
+                                ▼
+                    ┌───────────────────────┐
+                    │ Flyway V1 → V3        │
+                    │ Schema Evolution      │
+                    └───────────────────────┘
+```
+
+The current data layer uses MySQL 8.4 as the authoritative transactional store, JPA for the application model, Flyway 12.4.0 for migrations, and `DDL_AUTO=validate` so Hibernate does not silently mutate the production schema. fileciteturn3file0
 
 ---
 
@@ -40,12 +98,15 @@ The course follows an **outside-in learning model**: start with a working backen
 | **Contact** | 8 hours/week |
 | **Trimester** | T03 |
 | **Prerequisites** | DSA-1 · PSPJ |
-| **Primary Database** | PostgreSQL 16 |
-| **Backend** | Spring Boot 3 |
-| **Runtime** | JDK 21 LTS |
-| **Build** | Maven |
-| **Testing** | JUnit 5 · Testcontainers |
-| **API Testing** | Postman / Bruno |
+| **Anchor Project** | CampusConnect |
+| **Database** | MySQL 8.4 LTS |
+| **Backend** | Spring Boot 4.1 · Spring Framework 7 |
+| **Runtime** | Java 25 |
+| **Persistence** | Spring Data JPA + Hibernate |
+| **Migrations** | Flyway 12.4.0 |
+| **Build** | Maven 3.9.11 Wrapper |
+| **Testing** | JUnit 5 · JaCoCo |
+| **Operations** | Docker Compose · Actuator · Micrometer · GitHub Actions |
 
 ### 🔗 Official learning material
 
@@ -56,50 +117,53 @@ The course follows an **outside-in learning model**: start with a working backen
 ## 🧭 Learning Journey
 
 ```text
-HTTP Request
-     │
-     ▼
-┌───────────────┐
-│ REST / Spring │  M1 · Backend as a System
-└───────┬───────┘
-        ▼
-┌───────────────┐
-│ ER + Schema   │  M2 · Data Modelling
-└───────┬───────┘
-        ▼
-┌───────────────┐
-│ SQL           │  M3 · Query Fluency
-└───────┬───────┘
-        ▼
-┌───────────────┐
-│ Transactions  │  M4 · ACID + Concurrency
-└───────┬───────┘
-        ▼
-┌───────────────┐
-│ Index + Plans  │  M5 · Query Execution
-└───────┬───────┘
-        ▼
-┌───────────────┐
-│ Distribution  │  M6 · Replication + Sharding
-└───────────────┘
+HTTP / Backend
+      │
+      ▼
+┌─────────────────┐
+│ M1 · Service    │  Understand the running system
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│ M2 · Data Model │  ER → relational schema → 3NF/BCNF
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│ M3 · SQL        │  DDL · DML · joins · analytics
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│ M4 · Transactions│ ACID · isolation · concurrency
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│ M5 · Indexing   │  indexes · plans · optimisation
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│ M6 · Distribution│ replication · sharding · CAP
+└─────────────────┘
 ```
 
 ---
 
-# 🧩 Modules
+# 🧩 Module-Wise Syllabus
 
 ## M1 · Backend Service as a System
 
 **CO1 · BTL4 — Analyze**
 
-Understand a backend as a layered system and trace a request from HTTP arrival to JSON response.
+Trace a request through a real application and understand the layers between HTTP and persistence.
 
 - REST resources, verbs, status codes, idempotence and statelessness
-- Spring Boot `@RestController`, `@Service`, `@Repository`
+- Spring MVC controllers, services and repositories
 - Dependency injection at use-site
-- PostgreSQL and `psql`
-- HTTP → routing → service → data access → ORM/JDBC → SQL → storage
-- End-to-end request tracing with `GET /books/{id}`
+- JPA/Hibernate as the persistence boundary
+- MySQL as the relational source of truth
+- End-to-end request tracing
+- Modular-monolith boundaries and service responsibilities
+
+**CampusConnect evidence:** event discovery, administration, registration-interest, identity, recommendation and operations boundaries. fileciteturn1file0
 
 ---
 
@@ -107,15 +171,27 @@ Understand a backend as a layered system and trace a request from HTTP arrival t
 
 **CO2 · BTL3 — Apply**
 
-Design relational schemas that avoid unnecessary redundancy and update anomalies.
+Design a relational model that preserves integrity and avoids unnecessary redundancy.
 
-- ER diagrams and relationship cardinality
-- One-to-one, one-to-many and many-to-many mappings
+- Entities, attributes, relationships and cardinality
 - Primary, candidate and foreign keys
-- Surrogate vs natural keys
 - Functional dependencies
 - 1NF · 2NF · 3NF · BCNF
-- Controlled denormalisation and trade-offs
+- Many-to-many relationship resolution
+- Surrogate vs natural keys
+- Controlled denormalisation
+
+**CampusConnect model:** `USERS` and `EVENTS` are independent entities; `REGISTRATIONS` resolves their many-to-many relationship and stores relationship-specific attributes such as registration date and interest status. fileciteturn3file0
+
+```text
+USERS  1 ───────────<  REGISTRATIONS  >─────────── 1  EVENTS
+  │                         │                         │
+  │ username [UNIQUE]       │ user_id [FK]           │ title
+  │ email    [UNIQUE]       │ event_id [FK]          │ date_time
+  │ role                    │ status                 │ category
+  │                         │ registration_date      │ venue
+  └─────────────────────────┴─────────────────────────┘
+```
 
 ---
 
@@ -123,18 +199,28 @@ Design relational schemas that avoid unnecessary redundancy and update anomalies
 
 **CO3 · BTL3 — Apply**
 
-Use SQL confidently for schema definition, manipulation, analytical queries and reporting.
+Use SQL to define, manipulate, analyse and report on the CampusConnect dataset.
 
 - DDL: `CREATE`, `ALTER`, `DROP`
 - DML: `INSERT`, `UPDATE`, `DELETE`
-- `SELECT`, projection, selection and joins
+- `SELECT`, filtering and projection
 - `INNER`, `LEFT`, `RIGHT`, `FULL` joins
 - `GROUP BY`, `HAVING` and aggregates
-- Scalar, `IN`, `EXISTS` and correlated subqueries
-- CTEs and recursive CTEs
-- `ROW_NUMBER`, `RANK`, `LAG`, `LEAD`
+- Subqueries and CTEs
+- Analytical/window functions
+- Query cardinality and execution reasoning
 
-> **SQL discipline:** always understand the rows being selected, the joins being performed, and the cardinality produced.
+### Example CampusConnect query
+
+```sql
+SELECT category, COUNT(*) AS event_count
+FROM events
+WHERE date_time > UTC_TIMESTAMP()
+GROUP BY category
+ORDER BY event_count DESC;
+```
+
+This represents a real catalogue/analytics access pattern documented by the project's data-engineering evidence. fileciteturn3file0
 
 ---
 
@@ -142,17 +228,24 @@ Use SQL confidently for schema definition, manipulation, analytical queries and 
 
 **CO4 · BTL4 — Analyze**
 
-Understand how databases preserve correctness when multiple operations execute concurrently.
+Understand how CampusConnect protects data integrity when multiple requests arrive concurrently.
 
 - ACID properties
 - `BEGIN`, `COMMIT`, `ROLLBACK`
-- Read Uncommitted · Read Committed · Repeatable Read · Serializable
-- Dirty reads, non-repeatable reads and phantom reads
+- Isolation levels
+- Dirty/non-repeatable/phantom reads
 - Lost updates and write skew
-- Shared/exclusive locks and two-phase locking
-- Deadlocks and detection
-- MVCC and PostgreSQL snapshots
-- Short, well-defined transaction boundaries
+- Pessimistic locking
+- MVCC concepts
+- Deadlock awareness
+- Short and explicit transaction boundaries
+- Idempotent retry design
+
+### 🔐 CampusConnect concurrency case
+
+The current student-interest flow is transactional. The service performs a duplicate check, loads the user, obtains a **pessimistic write lock on the event row**, repeats the duplicate check, and inserts the unique user-event relationship. The database also enforces the uniqueness invariant. fileciteturn3file0
+
+> **Important:** CampusConnect currently records student interest; the configured external registration system remains authoritative for actual seat allocation. `max_capacity` by itself is not a ticketing implementation. fileciteturn3file0
 
 ---
 
@@ -160,149 +253,189 @@ Understand how databases preserve correctness when multiple operations execute c
 
 **CO5 · BTL4 — Analyze**
 
-Learn to make queries fast by understanding how PostgreSQL actually executes them.
+Learn to connect application query patterns to physical database access paths.
+
+CampusConnect's V3 migration adds indexes based on actual catalogue and analytics patterns:
+
+| Index | Why it exists |
+|---|---|
+| `date_time` | Upcoming/time-based event queries |
+| `(category, date_time)` | Category filtering + chronological ordering |
+| `(event_id, status)` | Registration analytics by event/status |
+| `(user_id, status)` | User/status registration queries |
+
+The project explicitly treats indexes as query-driven engineering decisions rather than speculative additions. fileciteturn3file0
+
+Study alongside:
 
 - B-tree / B+ tree concepts
-- Hash indexes
-- Multi-column indexes
-- Covering indexes and index-only scans
+- Composite indexes
+- Covering/index-only access
 - `EXPLAIN` and `EXPLAIN ANALYZE`
-- Sequential, index and index-only scans
-- Nested-loop, hash and merge joins
-- Cost-based optimisation and statistics
-- N+1 queries and ORM performance pitfalls
+- Sequential vs index scans
+- Join strategies
+- Selectivity and statistics
+- ORM N+1 query problems
 - Measure → diagnose → tune → measure
 
 ---
 
-## M6 · Distribution Basics
+## M6 · Distribution Basics — When One Machine Is Not Enough
 
 **CO6 · BTL3 — Apply**
 
-Reason about databases when storage, throughput or availability requirements exceed a single machine.
+Use CampusConnect as the baseline for reasoning about future scale rather than falsely claiming distributed infrastructure that is not currently deployed.
 
 - Primary-replica replication
 - Synchronous vs asynchronous replication
-- Replica lag
-- Read scaling
-- Failover concepts
-- Horizontal sharding by range, hash and lookup table
-- Rebalancing challenges
-- Distributed transactions and two-phase commit
+- Read scaling and replica lag
+- Failover
+- Horizontal sharding
+- Distributed transactions
+- Two-phase commit
 - CAP theorem
-- Introductory NoSQL design choices
+- Polyglot persistence
+- Derived vector-search architectures
+
+CampusConnect documents MongoDB, pgvector, Kafka, FastAPI, Node.js and Kubernetes as **bounded evolution paths**, not as current runtime components. fileciteturn1file0
 
 ---
 
-# 🚀 Anchor Project — BookStash
+# 🏗️ CampusConnect → DBMS Mapping
 
-### A Personal Library Backend Service
+| DBMS concept | CampusConnect implementation / evidence |
+|---|---|
+| **Relational modelling** | Users, events and registrations modelled as relational entities |
+| **Keys & constraints** | Primary keys, unique usernames/emails, foreign keys, status/capacity checks |
+| **Normalisation** | Registration relationship separated from user/event entities |
+| **SQL** | Catalogue and registration analytics queries |
+| **Transactions** | Transactional student-interest workflow |
+| **Concurrency** | Pessimistic event-row locking + unique user-event relationship |
+| **Indexing** | Date, category/date, event/status and user/status indexes |
+| **Schema evolution** | Flyway V1–V3 migrations |
+| **ORM** | Spring Data JPA + Hibernate |
+| **Integrity** | Database constraints + application validation |
+| **Observability** | Actuator + Micrometer/Prometheus |
+| **Deployment** | Dockerfile + Docker Compose |
+| **CI** | GitHub Actions |
+| **Distributed evolution** | Documented replication, polyglot and extraction paths |
 
-> **A REST backend with PostgreSQL — properly modelled, properly indexed, properly transactional.**
+The repository's DBSE&DBD evidence package explicitly maps implementation evidence to CO1–CO6. fileciteturn1file0
 
-**BookStash** is the course's 12-week project. It evolves alongside the modules so that every major concept becomes an engineering decision in a real backend.
+---
 
-### 🏗️ Build progression
+# 🗓️ 12-Week PBL Build Plan
 
-| Week | Focus | Project milestone |
+| Weeks | Module | CampusConnect work |
 |---:|---|---|
-| 1–2 | M1 | Working REST service + request tracing |
-| 3–4 | M2 | ER model + normalised relational schema |
-| 5–6 | M3 | SQL schema + data + reporting queries |
-| 7–8 | M4 | ACID borrow/return workflow + concurrency safety |
-| 9–10 | M5 | Indexes + EXPLAIN ANALYZE before/after |
-| 11–12 | M6 | Replication/read scaling concept or implementation |
-
-### ✨ Functional scope
-
-- 📚 Book CRUD
-- 👤 User CRUD
-- 🔄 Borrow and return workflows
-- 🔎 Search by title, author and ISBN
-- 📊 Top-borrowed and overdue reports
-- 🔐 Transactionally safe borrow/return logic
-- ⚡ Hand-designed indexes for common queries
-- 🔁 Idempotent borrow/return retries
-- 🧪 Testcontainers integration tests
-- 📮 Complete Postman / Bruno collection
-- 📈 SQL performance log with `EXPLAIN ANALYZE`
-- 📝 Defendable architecture and database design report
-
-### 🛠️ Minimal toolchain
-
-```text
-Java 21 LTS
-   │
-Spring Boot 3 + Spring Data JPA
-   │
-Maven ─────────────── JUnit 5
-   │                       │
-PostgreSQL 16 ◄──── Testcontainers
-   │
-Docker
-   │
-Git + GitHub
-   │
-Postman / Bruno
-```
-
-### 🎯 Final deliverable
-
-A GitHub repository containing:
-
-- Spring Boot backend
-- Flyway or Liquibase migrations
-- PostgreSQL schema and seed data
-- API collection
-- Testcontainers integration tests
-- SQL query log
-- `EXPLAIN ANALYZE` performance captures
-- Database and transaction design report
-- Live demonstration of borrow/return flows
-- Concurrent-borrow stress demonstration
+| **1–2** | M1 | Understand architecture, HTTP flow, Spring layers and persistence boundary |
+| **3–4** | M2 | Reverse-engineer ER model, keys, relationships and normalisation |
+| **5–6** | M3 | Write DDL/DML, joins, aggregates and analytics queries |
+| **7–8** | M4 | Analyse transactions, uniqueness, locking and concurrent interest writes |
+| **9–10** | M5 | Study migration indexes and benchmark query access paths |
+| **11–12** | M6 | Model replication, sharding, failover and polyglot evolution scenarios |
 
 ---
 
-# 🗂️ Repository Structure
+# 🧪 Practical Work
+
+The `Practical/` directory is intended for hands-on DBMS work derived from the course and the anchor project.
+
+Recommended progression:
 
 ```text
-DBMS/
-│
-├── 📁 Practical/
-│   ├── Week-01/
-│   ├── Week-02/
-│   ├── Week-03/
-│   └── ...
-│
-├── 📁 Skills/
-│   ├── SQL/
-│   ├── PostgreSQL/
-│   ├── Spring-Boot/
-│   ├── Transactions/
-│   ├── Indexing/
-│   └── Distributed-DB/
-│
-└── 📄 README.md
+Practical/
+├── 01_ER_Model/
+├── 02_Normalisation/
+├── 03_SQL/
+├── 04_Joins_and_Aggregation/
+├── 05_Subqueries_and_CTEs/
+├── 06_Transactions/
+├── 07_Concurrency/
+├── 08_Indexing/
+├── 09_Query_Optimisation/
+├── 10_Migrations/
+├── 11_Distributed_Database_Concepts/
+└── 12_CampusConnect_DB_Evidence/
 ```
 
-### `Practical/`
-Hands-on laboratory work, SQL programs, schema exercises, query experiments and project implementation work.
+Use this area for SQL scripts, schema exercises, query plans, transaction experiments, ER diagrams, screenshots/evidence and project-specific database work.
 
-### `Skills/`
-Focused skill-building material: SQL fluency, PostgreSQL internals, transaction reasoning, indexing, query optimisation and distributed database concepts.
+---
+
+# 🧠 Skills Development
+
+The `Skills/` directory is for focused mastery rather than weekly lab submissions.
+
+```text
+Skills/
+├── SQL/
+├── MySQL/
+├── ER-Modelling/
+├── Normalisation/
+├── Transactions/
+├── Concurrency/
+├── Indexing/
+├── Query-Optimisation/
+├── Spring-Data-JPA/
+├── Flyway/
+└── Distributed-Databases/
+```
+
+Each skill should ideally contain:
+
+- 📘 Concept notes
+- 💻 Working examples
+- 🧪 Exercises
+- 🧩 CampusConnect application
+- 📈 Performance evidence where applicable
+- 📝 Key takeaways
 
 ---
 
 # 🎯 Course Outcomes
 
-| CO | Outcome | Level |
-|---|---|---|
-| **CO1** | Analyze a backend service as a layered system and trace requests end-to-end. | BTL4 |
-| **CO2** | Apply ER modelling and normalisation to relational schema design. | BTL3 |
-| **CO3** | Apply SQL for data definition, manipulation, joins and analytical queries. | BTL3 |
-| **CO4** | Analyze transactions, isolation, concurrency anomalies and MVCC. | BTL4 |
-| **CO5** | Analyze indexes, query plans and cost-based query optimisation. | BTL4 |
-| **CO6** | Apply replication, sharding and CAP concepts to distributed databases. | BTL3 |
+| CO | Outcome | Level | CampusConnect evidence |
+|---|---|---|---|
+| **CO1** | Analyze a backend service as a layered system and trace requests end-to-end. | BTL4 | Spring MVC → services → JPA → MySQL |
+| **CO2** | Apply ER modelling and normalisation to relational schema design. | BTL3 | Users, events, registrations |
+| **CO3** | Apply SQL for definition, manipulation, joins and analytical queries. | BTL3 | Catalogue + registration analytics |
+| **CO4** | Analyze transactions, isolation, concurrency anomalies and MVCC. | BTL4 | Transactional interest workflow + pessimistic locking |
+| **CO5** | Analyze indexes, query plans and cost-based optimisation. | BTL4 | V3 query indexes + query-pattern analysis |
+| **CO6** | Apply replication, sharding and CAP concepts to distributed databases. | BTL3 | Architecture/evolution analysis |
+
+---
+
+# 🛠️ Current Technology Baseline
+
+```text
+Frontend / Web
+      │
+      ▼
+Spring MVC + Thymeleaf
+      │
+      ▼
+Spring Security + Application Services
+      │
+      ▼
+Spring Data JPA / Hibernate
+      │
+      ▼
+MySQL 8.4 LTS
+      │
+      ├── Flyway migrations
+      ├── Constraints
+      └── Query indexes
+
+Operations
+├── Docker / Compose
+├── Actuator
+├── Micrometer / Prometheus
+├── GitHub Actions
+└── Automated tests + coverage
+```
+
+The current CampusConnect README identifies Java 25, Spring Boot 4.1.0, Spring Framework 7, MySQL 8.4 LTS, Flyway 12.4.0, Maven 3.9.11, JaCoCo, Surefire, Resilience4j, Bucket4j, Actuator and Micrometer as the stable baseline. fileciteturn1file0
 
 ---
 
@@ -337,17 +470,20 @@ Model before coding.
 
 Normalize by default.
 
-Make transactions explicit.
+Make invariants explicit.
+
+Make transactions deliberate.
 
 Measure before optimizing.
 
 Use EXPLAIN, not assumptions.
 
-Design for correctness before scale.
-
 Treat concurrency as a first-class concern.
 
-Know when a single database is enough.
+Keep the relational database authoritative until
+there is a measured reason to introduce another store.
+
+Scale the architecture only when the workload requires it.
 ```
 
 ---
@@ -355,16 +491,21 @@ Know when a single database is enough.
 ## 🔮 What this course unlocks
 
 ```text
-25CS1302E
-   │
-   ├── 🗄️ Database Engineering
-   ├── ⚙️ Backend Engineering
-   ├── 📊 Big Data Engineering
-   ├── 🏗️ System Design for Scalability
-   └── 🤖 Agentic AI Backends
+                 25CS1302E
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+   🗄️ DB Engineering  ⚙️ Backend  📊 Data Engineering
+          │          │          │
+          └──────────┼──────────┘
+                     ▼
+          🏗️ Scalable System Design
+                     │
+                     ▼
+             🤖 Agentic AI Backends
 ```
 
-The goal is not simply to finish SQL exercises. By the end of the course, you should be able to **design, implement, debug, measure and defend a production-style data-backed backend system.**
+The goal is not simply to finish SQL exercises. By the end of the course, you should be able to **design, implement, debug, measure and defend a production-style data-backed backend system**—using CampusConnect as the concrete engineering case study.
 
 ---
 
@@ -373,5 +514,7 @@ The goal is not simply to finish SQL exercises. By the end of the course, you sh
 ### Built for learning. Structured for engineering. Ready for scale.
 
 **25CS1302E · Database Systems Engineering & Distributed Backend Development**
+
+urlCampusConnect Anchor Projecthttps://github.com/tejaswin-amara/campus-connect
 
 </div>
