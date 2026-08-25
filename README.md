@@ -65,8 +65,8 @@ The current application provides public event discovery, administrative event ma
              └──────────────────┼──────────────────┘
                                 ▼
                     ┌───────────────────────┐
-                    │ Spring Data JPA      │
-                    │ Hibernate Validation │
+                    │ Spring Data JPA       │
+                    │ Hibernate Validation  │
                     └───────────┬───────────┘
                                 │
                                 ▼
