@@ -186,10 +186,10 @@ Design a relational model that preserves integrity and avoids unnecessary redund
 ```text
 USERS  1 ───────────<  REGISTRATIONS  >─────────── 1  EVENTS
   │                         │                         │
-  │ username [UNIQUE]       │ user_id [FK]           │ title
-  │ email    [UNIQUE]       │ event_id [FK]          │ date_time
-  │ role                    │ status                 │ category
-  │                         │ registration_date      │ venue
+  │ username [UNIQUE]       │ user_id [FK]            │ title
+  │ email    [UNIQUE]       │ event_id [FK]           │ date_time
+  │ role                    │ status                  │ category
+  │                         │ registration_date       │ venue
   └─────────────────────────┴─────────────────────────┘
 ```
 
