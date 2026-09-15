@@ -1,0 +1,81 @@
+import os
+from typing import Annotated, Any, Dict
+from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from pydantic import BaseModel
+
+app = FastAPI(
+    title="FastAPI JWT Authentication Demo",
+    description="OAuth2 password flow with JWT bearer tokens.",
+    version="1.0.0",
+)
+
+SECRET_KEY: str = os.getenv("SECRET_KEY", "my-secret-key")
+ALGORITHM: str = "HS256"
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class ProfileResponse(BaseModel):
+    message: str
+    user_id: str
+    role: str
+
+
+def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> Dict[str, Any]:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid or expired token",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload: Dict[str, Any] = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM],
+        )
+        if "sub" not in payload or "role" not in payload:
+            raise credentials_exception
+        return payload
+    except JWTError:
+        raise credentials_exception
+
+
+@app.post("/login", response_model=TokenResponse)
+def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> TokenResponse:
+    if form_data.username == "101" and form_data.password == "abc123":
+        payload = {
+            "sub": form_data.username,
+            "role": "student",
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+        return TokenResponse(access_token=token, token_type="bearer")
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid username or password",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+
+@app.get("/profile", response_model=ProfileResponse)
+def profile(
+    user: Annotated[Dict[str, Any], Depends(get_current_user)],
+) -> ProfileResponse:
+    return ProfileResponse(
+        message="Welcome to your profile",
+        user_id=user["sub"],
+        role=user["role"],
+    )
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
