@@ -36,7 +36,7 @@ The course anchor is **CampusConnect**, a campus event catalogue and administrat
 
 ### A Trustworthy Campus Event Catalogue & Management Platform
 
-urlOpen the CampusConnect repositoryhttps://github.com/tejaswin-amara/campus-connect
+urlOpen the CampusConnect repository https://github.com/tejaswin-amara/campus-connect
 
 CampusConnect is the **primary PBL project** used to connect the DBSE&DBD syllabus with a real software system. It gives the course a concrete domain in which database modelling, integrity, SQL, transactions, indexes, backend architecture, security, observability, and scalability can be studied rather than treated as isolated exercises.
 
